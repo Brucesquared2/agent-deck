@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Brucesquared2/agent-deck/sanctuary-runtime/signal-schema.json",
+  "title": "Signal-Lang Signal",
+  "description": "Schema for Signal-Lang YAML-in-Markdown signals (version 1.0)",
+  "type": "object",
+  "required": ["signal", "id", "lane", "from", "to"],
+  "additionalProperties": true,
+  "properties": {
+    "signal": {
+      "type": "string",
+      "enum": [
+        "task.plan",
+        "task.progress",
+        "task.complete",
+        "review.findings",
+        "research.findings",
+        "constraint.vram",
+        "constraint.generic",
+        "system.alert"
+      ],
+      "description": "Signal type"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{4}Z_.+$",
+      "description": "Unique signal ID: <ISO8601-compact>_<slug>, e.g. 2026-04-29T1200Z_my_task"
+    },
+    "lane": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9,
+      "description": "Work lane 1-9"
+    },
+    "from": {
+      "type": "string",
+      "enum": ["planner", "implementer", "reviewer", "pi", "system", "broadcast"],
+      "description": "Originating agent role"
+    },
+    "to": {
+      "type": "string",
+      "enum": ["planner", "implementer", "reviewer", "pi", "system", "broadcast"],
+      "description": "Receiving agent role"
+    },
+    "intent": {
+      "type": "string",
+      "description": "One-line summary of the task (task.plan)"
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Array of free-text constraints (task.plan)"
+    },
+    "outputs_expected": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Array of expected artifact paths or descriptions (task.plan)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["in_progress", "blocked", "complete"],
+      "description": "Implementation status (task.progress)"
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Array of blockers (task.progress)"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File paths or commit refs (task.progress, task.complete)"
+    },
+    "approved": {
+      "type": "boolean",
+      "description": "Reviewer approval decision (review.findings)"
+    },
+    "vram_check": {
+      "type": "string",
+      "enum": ["passed", "failed", "skipped"],
+      "description": "VRAM gate result (review.findings)"
+    },
+    "findings": {
+      "type": "array",
+      "description": "Array of finding or research objects",
+      "items": {
+        "type": "object",
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "blocking"]
+          },
+          "message": { "type": "string" },
+          "entity": { "type": "string" },
+          "url": { "type": "string" },
+          "relevance": { "type": "string" },
+          "suggested_action": {
+            "type": "string",
+            "enum": ["add_skill", "evaluate", "archive", "ignore"]
+          }
+        }
+      }
+    },
+    "topic": {
+      "type": "string",
+      "description": "Research topic string (research.findings)"
+    },
+    "vram_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "VRAM usage percentage (constraint.vram)"
+    },
+    "temp_c": {
+      "type": "number",
+      "description": "GPU temperature in Celsius (constraint.vram)"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["block", "warn", "throttle"],
+      "description": "Constraint action (constraint.vram)"
+    }
+  }
+}
