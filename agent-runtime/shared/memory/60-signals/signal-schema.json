@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Brucesquared2/agent-deck/agent-runtime/shared/memory/60-signals/signal-schema.json",
+  "title": "Signal",
+  "description": "Schema for agent-runtime signal-lang v1.0 blocks",
+  "type": "object",
+  "required": ["version", "type", "id", "from", "to", "session", "timestamp", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Signal-lang spec version"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["task-request", "handoff", "constraint", "memory-write", "review-request"],
+      "description": "Signal type"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}-[a-z][a-z0-9-]*$",
+      "description": "Unique signal ID: YYYYMMDD-<agent-id>-<slug>"
+    },
+    "from": {
+      "type": "string",
+      "enum": ["planner", "implementer", "reviewer", "pi", "broadcast"],
+      "description": "Emitting agent"
+    },
+    "to": {
+      "type": "string",
+      "enum": ["planner", "implementer", "reviewer", "pi", "broadcast"],
+      "description": "Receiving agent or broadcast"
+    },
+    "session": {
+      "type": "string",
+      "description": "Session ID matching a file in 30-sessions/"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "description": "ISO-8601 UTC timestamp (e.g. 2026-04-29T04:51:00Z)"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Type-specific payload — validated by the type discriminator below",
+      "minProperties": 1
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true,
+      "description": "Lowercase hyphen-separated tags, sorted alphabetically"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "task-request" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["title", "description", "priority", "acceptance_criteria"],
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+              "deadline": { "type": ["string", "null"] },
+              "context_refs": { "type": "array", "items": { "type": "string" } },
+              "acceptance_criteria": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "handoff" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["summary", "next_action"],
+            "properties": {
+              "summary": { "type": "string" },
+              "artefacts": { "type": "array", "items": { "type": "string" } },
+              "next_action": { "type": "string" },
+              "open_questions": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "constraint" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["constraint", "scope", "rationale"],
+            "properties": {
+              "constraint": { "type": "string" },
+              "scope": { "type": "string", "enum": ["task", "project", "global"] },
+              "rationale": { "type": "string" },
+              "override_by": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "memory-write" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["target_path", "operation", "summary", "rationale"],
+            "properties": {
+              "target_path": { "type": "string" },
+              "operation": { "type": "string", "enum": ["append", "create", "archive"] },
+              "summary": { "type": "string" },
+              "rationale": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "review-request" } } },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": ["artefacts", "review_type"],
+            "properties": {
+              "artefacts": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "review_type": { "type": "string", "enum": ["code", "doc", "risk", "full"] },
+              "vram_required_gb": { "type": ["number", "null"] },
+              "checklist": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
