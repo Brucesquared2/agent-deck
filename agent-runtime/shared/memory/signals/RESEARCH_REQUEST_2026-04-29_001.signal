@@ -1,0 +1,30 @@
+---
+signal: RESEARCH_REQUEST
+id: RR-001
+from: planner
+to: pi
+date: 2026-04-29
+session: 2026-04-29-001
+priority: P1
+tags: [research, opencode, aider, adapters]
+---
+
+# Research Request: Adapter Runtime Configs
+
+Investigate the current configuration formats for OpenCode, Aider, and Pi so we can build accurate adapter configs.
+
+## Questions to Answer
+
+1. What is the correct config file format/name for OpenCode? (JSON? TOML? YAML?)
+2. What does a minimal `aider.conf.yml` look like?
+3. Does Pi (pi-mono) have a standard config file or does it use AGENTS.md?
+4. Are there any incompatibilities between the shared skill format and each runtime's native skill format?
+
+## Output
+
+Write findings to:
+- `memory/knowledge/opencode-config-format.md`
+- `memory/knowledge/aider-config-format.md`
+- `memory/knowledge/pi-config-format.md`
+
+Update `memory/maps/ENTITY_INDEX.md` if new tools or repos are discovered.
