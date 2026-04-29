@@ -37,7 +37,7 @@ Include:
 - Performance considerations (if any)
 ```
 
-### analyse-failure
+### analyze-failure
 
 ```
 A test is failing with the following output:
