@@ -1,0 +1,53 @@
+# Agent Deck configuration
+# Reference: https://agent-deck.com/docs/config
+#
+# This is a placeholder config. Adapt to the Agent Deck config schema for your
+# installed version. Run `agent-deck config --help` for available options.
+
+[general]
+# workspace = "~/Workspace/AIW/agent-runtime"
+# theme = "dark"
+# log_level = "info"
+
+[sessions]
+# Define sessions that Agent Deck manages.
+# Each session has a name, working directory, and start command.
+
+[[sessions.list]]
+name    = "opencode"
+dir     = "./opencode"
+command = "opencode"
+# conductor = false
+
+[[sessions.list]]
+name    = "aider"
+dir     = "./aider"
+command = "aider --config aider.conf.yml"
+# conductor = false
+
+[[sessions.list]]
+name    = "pi"
+dir     = "./pi"
+command = "sh scripts/pi-run.sh"
+# conductor = false
+
+[worktrees]
+# Enable git worktrees so agents can work in parallel branches safely.
+# enabled = true
+# base_branch = "main"
+# worktree_dir = ".worktrees"
+
+[mcp]
+# Global MCP server settings.
+# Individual MCP servers are configured per runtime (e.g. opencode.config.json).
+# shared_config = "./shared/mcp"
+
+[docker]
+# Docker sandbox settings (optional).
+# enabled = false
+# image = "ghcr.io/agent-deck/sandbox:latest"
+
+[remote]
+# Remote instance settings (optional).
+# host = ""
+# port = 0
