@@ -1,0 +1,32 @@
+---
+signal: HANDOFF
+id: HO-001
+from: implementer
+to: reviewer
+date: 2026-04-29
+session: 2026-04-29-001
+priority: P1
+tags: [handoff, review, scaffold]
+---
+
+# Handoff: Memory System Scaffold → Review
+
+The initial memory system scaffold is complete (T-001 through T-010).
+
+## What Was Done
+
+- Created full `agent-runtime/shared/memory/` taxonomy
+- Wrote all core, ops, maps, signals, sessions, knowledge, scratch, projects files
+- Wrote three memory scripts in `agent-runtime/scripts/`
+- Wrote adapter configs for opencode, aider, pi, agent-deck
+
+## What Needs Review
+
+1. Does the taxonomy make sense? Is anything missing or misplaced?
+2. Are the agent prompts in `shared/agents/` sufficient to onboard a new agent?
+3. Are the scripts safe (POSIX sh, no dangerous commands)?
+4. Does `maps/INDEX.md` accurately reflect what's been created?
+
+## Session Log
+
+See `memory/sessions/2026-04-29-001/log.md`.

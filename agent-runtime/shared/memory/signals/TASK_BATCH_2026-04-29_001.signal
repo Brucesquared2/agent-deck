@@ -1,0 +1,31 @@
+---
+signal: TASK_BATCH
+id: TB-001
+from: planner
+to: implementer
+date: 2026-04-29
+session: 2026-04-29-001
+priority: P0
+tags: [memory, scaffold, architecture]
+---
+
+# Task Batch 001: Memory System Scaffold
+
+Implement the full `agent-runtime/shared/memory/` taxonomy and supporting files.
+
+## Tasks (in order)
+
+1. **T-001** Create `core/` zone: IDENTITY.md, MISSION.md, PRINCIPLES.md
+2. **T-002** Create `ops/` zone: MEMORY_RUNBOOK.md, task-queue.md, maintenance-checklist.md
+3. **T-003** Create `maps/` zone: INDEX.md, MEMORY_MAP.md, TAG_INDEX.md, ENTITY_INDEX.md, DECISION_LOG.md
+4. **T-004** Create `signals/` zone: README.md, example signals
+5. **T-005** Create `sessions/` zone: templates, sample session
+6. **T-006** Create `knowledge/` zone: glossary, lessons-learned
+7. **T-007** Create `scratch/` zone: .gitkeep
+8. **T-008** Create `projects/` zone: sample project pack
+9. **T-009** Write `shared/memory/README.md`
+10. **T-010** Write scripts: memory-new-session.sh, memory-summarize-session.sh, memory-tag-refresh.sh
+
+## Acceptance Criteria
+
+All files exist, are non-empty, and follow the taxonomy described in `maps/MEMORY_MAP.md`.
