@@ -1,0 +1,38 @@
+# Aider configuration
+# Reference: https://aider.chat/docs/config/aider_conf.html
+#
+# Copy this file to .aider.conf.yml in your project root, or keep it here and
+# pass it explicitly: aider --config aider/aider.conf.yml
+
+# --- Model ---
+# model: claude-3-5-sonnet-20241022
+# openai-api-key: ${OPENAI_API_KEY}
+# anthropic-api-key: ${ANTHROPIC_API_KEY}
+
+# --- Editor model (for smaller edits) ---
+# editor-model: claude-3-haiku-20240307
+
+# --- Git behaviour ---
+auto-commits: true          # commit after each successful edit
+dirty-commits: false        # don't commit if working tree is dirty before start
+# attribute-author: false   # don't add "Co-authored-by: aider" to commits
+
+# --- Context ---
+# read:                     # files to include as read-only context
+#   - shared/memory/decisions.md
+#   - shared/memory/glossary.md
+
+# --- Output ---
+pretty: true
+stream: true
+# dark-mode: true
+
+# --- Lint / test ---
+# lint-cmd: "golangci-lint run"
+# test-cmd: "go test ./..."
+# auto-lint: true
+# auto-test: true
+
+# --- Misc ---
+# show-model-warnings: true
+# map-tokens: 1024

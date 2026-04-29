@@ -1,0 +1,39 @@
+{
+  "$schema": "https://opencode.ai/config.schema.json",
+  "provider": {
+    "model": "claude-3-5-sonnet-20241022",
+    "apiKey": "${ANTHROPIC_API_KEY}"
+  },
+  "agentsDir": "./agents",
+  "skillsDir": "./skills",
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "enabled": true
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git", "--repository", "."],
+      "enabled": true
+    }
+  },
+  "sessions": {
+    "planner": {
+      "agent": "planner",
+      "description": "Breaks goals into ordered tasks"
+    },
+    "implementer": {
+      "agent": "implementer",
+      "description": "Writes and edits code"
+    },
+    "reviewer": {
+      "agent": "reviewer",
+      "description": "Reviews code quality and correctness"
+    },
+    "pi": {
+      "agent": "pi",
+      "description": "Research and product intelligence"
+    }
+  }
+}
