@@ -1,0 +1,39 @@
+# SkillOps Canonical Skill Template
+#
+# source-of-truth: skill.yaml
+# human playbook:  skill.md   (generated or reviewed)
+# machine output:  skill.json (compiled — do not hand-edit)
+
+skill:
+  id: "SKILL-ID-HERE"
+  name: "Human-Readable Skill Name"
+  type: "operational"            # operational | research | consultant
+  status: "candidate"            # observed | candidate | drafted | reviewed | approved | active | improved | merged | retired
+  owner_agent: "AGT-SKIL-0001"
+  overlap_group: "group-name"
+  promotion_threshold: 33        # uses per day before promotion is considered
+
+triggers:
+  - event_type: "domain.event_name"
+  - command_pattern: "aiw <command>"
+
+inputs:
+  - "memory/L0_raw_events/events.jsonl"
+
+outputs:
+  - "memory/L6_compiled/brief.md"
+
+procedure:
+  - "step 1"
+  - "step 2"
+  - "step 3"
+
+review:
+  cadence: "daily"               # daily | weekly | session
+  human_signoff_required: true
+  retirement_condition: "unused_days >= 30"
+
+metrics:
+  usage_count_24h: 0
+  failed_runs_24h: 0
+  overlap_score: 0.0

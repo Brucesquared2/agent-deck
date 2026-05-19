@@ -1,0 +1,14 @@
+{
+  "version": "1",
+  "updated": "2026-05-19",
+  "skills": [
+    {
+      "id": "inventory-reconciliation-review",
+      "type": "operational",
+      "status": "candidate",
+      "owner_agent": "AGT-SKIL-0001",
+      "overlap_group": "factory-inventory",
+      "path": "registry/skills/inventory-reconciliation-review/skill.yaml"
+    }
+  ]
+}

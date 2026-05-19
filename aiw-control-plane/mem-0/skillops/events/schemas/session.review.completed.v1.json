@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "session.review.completed.v1",
+  "title": "session.review.completed",
+  "version": "1",
+  "type": "object",
+  "required": ["event_type", "version", "timestamp", "session_id", "agent_id", "summary", "learnings"],
+  "properties": {
+    "event_type":      { "const": "session.review.completed" },
+    "version":         { "const": "1" },
+    "timestamp":       { "type": "string", "format": "date-time" },
+    "session_id":      { "type": "string" },
+    "agent_id":        { "type": "string" },
+    "summary":         { "type": "string" },
+    "learnings":       { "type": "array", "items": { "type": "string" } },
+    "skills_used":     { "type": "array", "items": { "type": "string" } },
+    "skills_proposed": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

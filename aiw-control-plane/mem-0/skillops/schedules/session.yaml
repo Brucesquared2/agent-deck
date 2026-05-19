@@ -1,0 +1,20 @@
+session_lifecycle:
+  start:
+    - load_project_state
+    - load_active_skills
+    - load_relevant_memory
+    - lock_agent_task_lanes
+
+  during:
+    - record_skill_usage
+    - capture_repeated_prompts
+    - capture_failures
+    - capture_successful_command_chains
+    - capture_new_decisions
+
+  end:
+    - summarize_session
+    - extract_learnings
+    - propose_skill_updates
+    - generate_interview_questions
+    - emit_session_review_completed

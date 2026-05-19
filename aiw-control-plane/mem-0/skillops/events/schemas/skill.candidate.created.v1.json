@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "skill.candidate.created.v1",
+  "title": "skill.candidate.created",
+  "version": "1",
+  "type": "object",
+  "required": ["event_type", "version", "timestamp", "skill_id", "source_agent", "rationale"],
+  "properties": {
+    "event_type":    { "const": "skill.candidate.created" },
+    "version":       { "const": "1" },
+    "timestamp":     { "type": "string", "format": "date-time" },
+    "skill_id":      { "type": "string" },
+    "source_agent":  { "type": "string" },
+    "rationale":     { "type": "string" },
+    "overlap_group": { "type": "string" },
+    "trigger_event": { "type": "string" }
+  },
+  "additionalProperties": false
+}

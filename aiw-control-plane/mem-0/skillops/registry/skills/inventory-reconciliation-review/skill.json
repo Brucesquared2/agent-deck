@@ -1,0 +1,44 @@
+{
+  "_note": "Compiled from skill.yaml — do not hand-edit",
+  "skill": {
+    "id": "inventory-reconciliation-review",
+    "name": "Inventory Reconciliation Review",
+    "type": "operational",
+    "status": "candidate",
+    "owner_agent": "AGT-SKIL-0001",
+    "overlap_group": "factory-inventory",
+    "promotion_threshold": 33
+  },
+  "triggers": [
+    { "event_type": "inventory.short" },
+    { "event_type": "inventory.counted" },
+    { "command_pattern": "aiw reconcile inventory" }
+  ],
+  "inputs": [
+    "memory/L0_raw_events/events.jsonl",
+    "memory/L1_materialized_state/inventory_state.json",
+    "factory/bom/*.json"
+  ],
+  "outputs": [
+    "memory/L6_compiled/factory_brief.md",
+    "memory/L6_compiled/proposed_events.jsonl",
+    "memory/L6_compiled/cockpit_state.json"
+  ],
+  "procedure": [
+    "validate inventory events",
+    "compare claimed quantity against counted quantity",
+    "generate inventory.short if delta is negative",
+    "pause affected factory job if blocking",
+    "open incident if unresolved"
+  ],
+  "review": {
+    "cadence": "daily",
+    "human_signoff_required": true,
+    "retirement_condition": "unused_days >= 30"
+  },
+  "metrics": {
+    "usage_count_24h": 0,
+    "failed_runs_24h": 0,
+    "overlap_score": 0.0
+  }
+}
