@@ -1,0 +1,17 @@
+agent:
+  id: "AGT-SKIL-0001"
+  name: "SkillOps Curator"
+  status: "active"
+
+lanes:
+  - track_33x_frequency
+  - detect_skill_overlap
+  - generate_skill_change_orders
+
+events_emitted:
+  - skill.usage.recorded
+  - skill.candidate.created
+  - skill.change.proposed
+
+schedule:
+  trigger: "daily.midday"

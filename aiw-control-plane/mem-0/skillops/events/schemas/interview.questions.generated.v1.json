@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "interview.questions.generated.v1",
+  "title": "interview.questions.generated",
+  "version": "1",
+  "type": "object",
+  "required": ["event_type", "version", "timestamp", "session_id", "generated_by", "questions"],
+  "properties": {
+    "event_type":    { "const": "interview.questions.generated" },
+    "version":       { "const": "1" },
+    "timestamp":     { "type": "string", "format": "date-time" },
+    "session_id":    { "type": "string" },
+    "generated_by":  { "type": "string" },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question", "context"],
+        "properties": {
+          "question":   { "type": "string" },
+          "context":    { "type": "string" },
+          "skill_id":   { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

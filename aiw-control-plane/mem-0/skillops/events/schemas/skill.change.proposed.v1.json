@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "skill.change.proposed.v1",
+  "title": "skill.change.proposed",
+  "version": "1",
+  "type": "object",
+  "required": ["event_type", "version", "timestamp", "skill_id", "proposed_by", "change_type", "description"],
+  "properties": {
+    "event_type":   { "const": "skill.change.proposed" },
+    "version":      { "const": "1" },
+    "timestamp":    { "type": "string", "format": "date-time" },
+    "skill_id":     { "type": "string" },
+    "proposed_by":  { "type": "string" },
+    "change_type":  { "type": "string", "enum": ["improve", "merge", "retire", "rename", "promote"] },
+    "description":  { "type": "string" },
+    "merge_target": { "type": "string", "description": "target skill id when change_type is merge" }
+  },
+  "additionalProperties": false
+}

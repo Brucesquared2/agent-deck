@@ -1,0 +1,16 @@
+agent:
+  id: "AGT-SIMP-0001"
+  name: "Simplifier / Merger"
+  status: "active"
+
+lanes:
+  - prune_prompt_bloat
+  - merge_duplicate_skills
+  - refactor_skill_wording
+
+events_emitted:
+  - skill.merged.proposed
+  - skill.retired.proposed
+
+schedule:
+  trigger: "daily.evening"

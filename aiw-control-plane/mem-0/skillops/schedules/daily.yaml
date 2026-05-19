@@ -1,0 +1,16 @@
+daily_lifecycle:
+  morning:
+    - aiw memory validate
+    - aiw memory compile
+    - aiw skillops load-active-context
+
+  midday:
+    - aiw skillops count-usage
+    - aiw skillops detect-overlap
+    - aiw skillops collect-research-suggestions
+
+  evening:
+    - aiw skillops review-day
+    - aiw skillops draft-change-orders
+    - aiw skillops generate-interview
+    - aiw memory compile
