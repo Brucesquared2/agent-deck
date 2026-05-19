@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "skill.usage.recorded.v1",
+  "title": "skill.usage.recorded",
+  "version": "1",
+  "type": "object",
+  "required": ["event_type", "version", "timestamp", "skill_id", "agent_id", "session_id"],
+  "properties": {
+    "event_type": { "const": "skill.usage.recorded" },
+    "version":    { "const": "1" },
+    "timestamp":  { "type": "string", "format": "date-time" },
+    "skill_id":   { "type": "string" },
+    "agent_id":   { "type": "string" },
+    "session_id": { "type": "string" },
+    "outcome":    { "type": "string", "enum": ["success", "failure", "partial"] },
+    "duration_ms":{ "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": false
+}

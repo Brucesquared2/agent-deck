@@ -1,0 +1,16 @@
+agent:
+  id: "AGT-SESS-0001"
+  name: "Session Reviewer"
+  status: "active"
+
+lanes:
+  - extract_session_logs
+  - classify_new_learnings
+  - generate_interview_questions
+
+events_emitted:
+  - session.review.completed
+  - interview.questions.generated
+
+schedule:
+  trigger: "session.end"

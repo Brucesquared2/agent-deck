@@ -1,0 +1,24 @@
+promotion_rules:
+  min_uses_per_day: 33
+  min_sessions_observed: 2
+  maximum_allowed_overlap: 0.15
+  human_signoff_required: true
+
+retirement_rules:
+  unused_days: 30
+
+overlap_detection:
+  # Exceeding this score triggers a forced merge-or-reject decision.
+  # Not a hard rejection — an operator review is required.
+  merge_decision_threshold: 0.15
+
+skill_states:
+  - observed
+  - candidate
+  - drafted
+  - reviewed
+  - approved
+  - active
+  - improved
+  - merged
+  - retired
