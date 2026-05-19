@@ -1,0 +1,28 @@
+# Aider configuration for agent-runtime
+# https://aider.chat/docs/config/aider_conf.html
+
+model: claude-opus-4
+
+# System prompt: load the Implementer agent by default
+# (Aider uses a single active agent; switch by changing this path)
+system-prompt: ../shared/agents/implementer.md
+
+# Coding conventions
+auto-commits: false
+dirty-commits: false
+attribute-author: false
+attribute-committer: false
+
+# Git
+git: true
+gitignore: true
+
+# Output
+pretty: true
+stream: true
+
+# Memory: read context files at session start
+read:
+  - ../shared/memory/maps/INDEX.md
+  - ../shared/memory/core/MISSION.md
+  - ../shared/memory/core/PRINCIPLES.md

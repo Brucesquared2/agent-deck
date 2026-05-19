@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config-schema.json",
+  "model": "claude-opus-4",
+  "agents": [
+    {
+      "name": "planner",
+      "system": "../shared/agents/planner.md"
+    },
+    {
+      "name": "implementer",
+      "system": "../shared/agents/implementer.md"
+    },
+    {
+      "name": "reviewer",
+      "system": "../shared/agents/reviewer.md"
+    },
+    {
+      "name": "pi",
+      "system": "../shared/agents/pi.md"
+    }
+  ],
+  "skills_dir": "../shared/skills",
+  "memory_dir": "../shared/memory",
+  "mcp": {
+    "servers": {}
+  }
+}

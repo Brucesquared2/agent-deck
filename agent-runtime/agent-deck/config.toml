@@ -1,0 +1,36 @@
+# Agent Deck configuration for agent-runtime
+# Place this file at ~/.agent-deck/config.toml or pass with --config
+
+[general]
+default_shell = "sh"
+log_level     = "info"
+
+[sessions]
+# Sessions managed by Agent Deck
+# Each session maps to a runtime adapter
+
+[[sessions.session]]
+name    = "opencode"
+dir     = "../opencode"
+command = "opencode --config opencode.config.json"
+tags    = ["coding", "primary"]
+
+[[sessions.session]]
+name    = "aider"
+dir     = "../aider"
+command = "sh scripts/aider-run.sh"
+tags    = ["coding", "file-edit"]
+
+[[sessions.session]]
+name    = "pi"
+dir     = "../pi"
+command = "sh scripts/pi-run.sh"
+tags    = ["coding", "experimental"]
+
+[memory]
+# Shared memory directory (relative to this config file)
+dir = "../shared/memory"
+
+[skills]
+# Shared skills directory
+dir = "../shared/skills"
