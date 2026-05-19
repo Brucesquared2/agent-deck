@@ -25,8 +25,10 @@ restart     = true
 ## Adding a Conductor
 
 1. Create `conductors/<name>.toml` using the template above.
-2. Reference it in `config.toml` under `[conductors]`.
+2. Ensure your Agent Deck deployment is configured to load conductor files from the `conductors/` directory using its existing config layout.
 3. Restart Agent Deck.
+
+> Note: This repository does not define a `[conductors]` section in `config.toml`, so do not add one unless your local Agent Deck configuration schema explicitly supports it.
 
 ## Signal Routing
 
