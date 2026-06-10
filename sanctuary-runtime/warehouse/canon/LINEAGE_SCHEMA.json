@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "warehouse:lineage:v0.1",
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "title": "Warehouse Lineage Record",
+  "description": "Tracks the provenance and transformation chain of a Warehouse artifact. Every canonical artifact MUST carry a lineage record.",
+  "type": "object",
+  "required": [
+    "artifact_id",
+    "created_at",
+    "created_by",
+    "authority_source",
+    "version"
+  ],
+  "properties": {
+    "artifact_id": {
+      "type": "string",
+      "description": "Stable unique identifier for this artifact. Recommended: UUID or slugged canonical path.",
+      "examples": ["warehouse:spec:v0.1", "session:x399:2026-06-10"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this artifact was created or last materially changed."
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Agent or operator that created this artifact. Use 'human:<handle>' or 'agent:<name>'.",
+      "examples": ["human:bruce", "agent:pi", "agent:opencode"]
+    },
+    "derived_from": {
+      "type": "array",
+      "description": "Ordered list of source artifact IDs this artifact was derived from. Empty for root artifacts.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "authority_source": {
+      "type": "string",
+      "description": "Path or ID of the single authoritative location for this artifact family."
+    },
+    "reflection_sources": {
+      "type": "array",
+      "description": "Paths or IDs of known non-authoritative mirrors or reflections of this artifact.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "hash": {
+      "type": "string",
+      "description": "SHA-256 content hash of the canonical artifact at creation time. Optional but strongly recommended.",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic or sequential version string.",
+      "examples": ["0.1", "1.0.0", "2026-06-10"]
+    },
+    "supersedes": {
+      "type": "string",
+      "description": "Artifact ID of the previous version this record supersedes, if any."
+    },
+    "superseded_by": {
+      "type": "string",
+      "description": "Artifact ID that supersedes this record, if known."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "provisional", "canonical", "deprecated", "archived"],
+      "description": "Canonization status of this artifact."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Free-form classification tags.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "artifact_id": "warehouse:spec:v0.1",
+      "created_at": "2026-06-10T04:00:00Z",
+      "created_by": "human:bruce",
+      "derived_from": [
+        "warehouse:archaeology:2026-06-10",
+        "sanctuary-runtime:agent-runtime:README"
+      ],
+      "authority_source": "sanctuary-runtime/warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+      "reflection_sources": [
+        "sanctuary-runtime/warehouse/recovery/WAREHOUSE_SPECIFICATION.md"
+      ],
+      "version": "0.1",
+      "status": "candidate",
+      "tags": ["warehouse", "spec", "canon-seed"]
+    }
+  ]
+}

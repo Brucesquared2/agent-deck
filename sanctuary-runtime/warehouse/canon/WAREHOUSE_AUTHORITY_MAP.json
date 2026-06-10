@@ -1,0 +1,114 @@
+{
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "produced_at": "2026-06-10T04:00:00Z",
+  "description": "Governance registry mapping artifact families to their provisional authority locations.",
+  "precedence_rules": [
+    "versioned + schema-backed artifact > unversioned descriptive artifact",
+    "explicit policy matrix > adapter-local convenience docs",
+    "numbered taxonomy > unnumbered taxonomy unless explicitly grandfathered",
+    "explicit accepted decision records > implied practice",
+    "source evidence > reconstructed prose"
+  ],
+  "conflict_domains": [
+    {
+      "id": "CD-TAXONOMY",
+      "description": "Numbered (00-90) vs unnumbered memory taxonomy",
+      "candidates": [
+        {
+          "name": "numbered-taxonomy",
+          "path": "sanctuary-runtime/agent-runtime/shared/memory/",
+          "status": "preferred-candidate",
+          "confidence": 0.88
+        },
+        {
+          "name": "unnumbered-taxonomy",
+          "path": "legacy docs",
+          "status": "active-legacy",
+          "confidence": 0.45
+        }
+      ],
+      "resolution": "PENDING — see CANONIZATION_DECISIONS.md CD-002"
+    },
+    {
+      "id": "CD-SIGNAL",
+      "description": "Versioned 60-signals format vs legacy .signal front-matter format",
+      "candidates": [
+        {
+          "name": "versioned-signal-lang",
+          "path": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-lang.md",
+          "schema": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-schema.json",
+          "status": "preferred-candidate",
+          "confidence": 0.91
+        },
+        {
+          "name": "legacy-signal-frontmatter",
+          "path": "legacy .signal files",
+          "status": "active-legacy",
+          "confidence": 0.38
+        }
+      ],
+      "resolution": "PENDING — see CANONIZATION_DECISIONS.md CD-001"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "signal-lang",
+      "authority": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-lang.md",
+      "schema": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-schema.json",
+      "status": "candidate",
+      "confidence": 0.91,
+      "notes": "Versioned spec with deterministic parsing. Penalized for zero inbound parser references."
+    },
+    {
+      "name": "memory-taxonomy",
+      "authority": "sanctuary-runtime/agent-runtime/shared/memory/50-maps/MEMORY_MAP.md",
+      "status": "candidate",
+      "confidence": 0.88,
+      "notes": "Numbered 00-90 taxonomy. Preferred over unnumbered legacy tree."
+    },
+    {
+      "name": "agent-deck",
+      "authority": "cmd/agent-deck/",
+      "status": "candidate",
+      "confidence": 0.93,
+      "notes": "Highest-confidence authority in repo. Strong inbound references and schema alignment."
+    },
+    {
+      "name": "agent-contracts",
+      "authority": "sanctuary-runtime/agent-runtime/shared/agents/",
+      "status": "candidate",
+      "confidence": 0.82,
+      "notes": "Planner, implementer, reviewer, pi contracts. Shared across all adapters."
+    },
+    {
+      "name": "governance-policy",
+      "authority": "sanctuary-runtime/agent-runtime/shared/memory/00-core/",
+      "status": "candidate",
+      "confidence": 0.79,
+      "notes": "Core identity, manifesto, write-authority rules."
+    },
+    {
+      "name": "warehouse-specification",
+      "authority": "sanctuary-runtime/warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+      "status": "candidate",
+      "confidence": 0.70,
+      "notes": "Root specification. Candidate/provisional. Requires Bruce approval."
+    },
+    {
+      "name": "lineage-schema",
+      "authority": "sanctuary-runtime/warehouse/canon/LINEAGE_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.68,
+      "notes": "First-class lineage contract. Currently missing from active enforcement."
+    },
+    {
+      "name": "recovery-manifest-schema",
+      "authority": "sanctuary-runtime/warehouse/canon/RECOVERY_MANIFEST_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.68,
+      "notes": "Recovery contract. Currently missing from active enforcement."
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "warehouse:recovery-manifest:v0.1",
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "title": "Warehouse Recovery Manifest",
+  "description": "Defines the deterministic rebuild instructions for a Warehouse node. A node is rebuildable iff it has a valid recovery manifest pointing to reachable authority sources.",
+  "type": "object",
+  "required": [
+    "node",
+    "version",
+    "authority_sources",
+    "rebuild_steps"
+  ],
+  "properties": {
+    "node": {
+      "type": "string",
+      "description": "Identifier of the node or environment being described.",
+      "examples": ["x399", "sanctuary-runtime", "agent-deck-dev"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of this manifest."
+    },
+    "produced_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this manifest was produced."
+    },
+    "produced_by": {
+      "type": "string",
+      "description": "Agent or operator that produced this manifest."
+    },
+    "authority_sources": {
+      "type": "array",
+      "description": "List of canonical authority artifact locations required to rebuild this node.",
+      "items": {
+        "type": "object",
+        "required": ["id", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Artifact ID matching a LINEAGE_SCHEMA.json artifact_id."
+          },
+          "path": {
+            "type": "string",
+            "description": "Repo-relative path to the authority artifact."
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether this source is mandatory for rebuild. Default true.",
+            "default": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_repos": {
+      "type": "array",
+      "description": "Git repository URLs required to be present for rebuild.",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "default": []
+    },
+    "required_configs": {
+      "type": "array",
+      "description": "Config files or environment variables that must be present or set before rebuild.",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["file", "env", "secret"],
+            "default": "file"
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "required_agents": {
+      "type": "array",
+      "description": "Agent runtimes required to be available for rebuild.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "verification_steps": {
+      "type": "array",
+      "description": "Ordered checks to verify that the node is healthy before or after rebuild.",
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string",
+            "description": "Optional shell command that verifies the step."
+          },
+          "expected_exit_code": {
+            "type": "integer",
+            "default": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "rebuild_steps": {
+      "type": "array",
+      "description": "Ordered steps to fully rebuild this node from authority sources.",
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string",
+            "description": "Optional shell command that executes this step."
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lineage": {
+      "$ref": "warehouse:lineage:v0.1",
+      "description": "Lineage record for this manifest itself."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "node": "x399",
+      "version": "0.1",
+      "produced_at": "2026-06-10T04:00:00Z",
+      "produced_by": "human:bruce",
+      "authority_sources": [
+        {
+          "id": "warehouse:spec:v0.1",
+          "path": "sanctuary-runtime/warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+          "required": true
+        },
+        {
+          "id": "agent-runtime:shared-memory",
+          "path": "sanctuary-runtime/agent-runtime/shared/memory/",
+          "required": true
+        }
+      ],
+      "required_repos": [
+        "https://github.com/Brucesquared2/agent-deck"
+      ],
+      "required_agents": ["opencode", "aider"],
+      "verification_steps": [
+        {
+          "id": "go-build",
+          "description": "Agent Deck Go binary builds cleanly",
+          "command": "GOTOOLCHAIN=go1.24.0 go build ./cmd/agent-deck/",
+          "expected_exit_code": 0
+        }
+      ],
+      "rebuild_steps": [
+        {
+          "id": "clone-repo",
+          "description": "Clone agent-deck repository",
+          "command": "git clone https://github.com/Brucesquared2/agent-deck",
+          "depends_on": []
+        },
+        {
+          "id": "sync-skills",
+          "description": "Sync shared skills into all adapter directories",
+          "command": "bash sanctuary-runtime/agent-runtime/scripts/sync-skills.sh all",
+          "depends_on": ["clone-repo"]
+        }
+      ]
+    }
+  ]
+}
