@@ -1,0 +1,102 @@
+{
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "artifact": "WAREHOUSE_AUTHORITY_MAP",
+  "description": "Registry of authoritative sources for each Warehouse artifact family. Conflicts are resolved by the precedence rules in WAREHOUSE_SPECIFICATION.md §14.",
+  "artifacts": [
+    {
+      "name": "signal-lang",
+      "authority": "/warehouse/repos/signal-lang",
+      "candidate_path": "60-signals/signal-lang.md",
+      "status": "candidate",
+      "confidence": 0.90,
+      "notes": "Versioned spec exists. Legacy .signal format also active — format split unresolved."
+    },
+    {
+      "name": "signal-schema",
+      "authority": "/warehouse/repos/signal-lang",
+      "candidate_path": "60-signals/signal-schema.json",
+      "status": "candidate",
+      "confidence": 0.90,
+      "notes": "JSON schema for signal/event payload validation."
+    },
+    {
+      "name": "memory-map",
+      "authority": "/warehouse/memory",
+      "candidate_path": "50-maps/MEMORY_MAP.md",
+      "status": "candidate",
+      "confidence": 0.85,
+      "notes": "Numbered taxonomy is the preferred candidate. Unnumbered tree also active — taxonomy split unresolved."
+    },
+    {
+      "name": "policies",
+      "authority": "/warehouse/memory",
+      "candidate_path": "00-core/policies.md",
+      "status": "candidate",
+      "confidence": 0.88,
+      "notes": "Write authority and governance rules."
+    },
+    {
+      "name": "memory-lattice",
+      "authority": "/warehouse/repos/memory-lattice",
+      "candidate_path": null,
+      "status": "candidate",
+      "confidence": 0.75,
+      "notes": "Repo-level authority; internal structure not yet fully mapped."
+    },
+    {
+      "name": "agent-deck",
+      "authority": "/warehouse/repos/agent-deck",
+      "candidate_path": null,
+      "status": "candidate",
+      "confidence": 0.93,
+      "notes": "Execution adapter for agent-deck runtime."
+    },
+    {
+      "name": "agent-contracts",
+      "authority": "/warehouse/shared/agents",
+      "candidate_path": null,
+      "status": "candidate",
+      "confidence": 0.80,
+      "notes": "Shared agent behavioral contracts."
+    },
+    {
+      "name": "lineage-schema",
+      "authority": "/warehouse/canon",
+      "candidate_path": "warehouse/canon/LINEAGE_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.70,
+      "notes": "First-pass schema. Requires Bruce approval before enforcement."
+    },
+    {
+      "name": "recovery-manifest-schema",
+      "authority": "/warehouse/canon",
+      "candidate_path": "warehouse/canon/RECOVERY_MANIFEST_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.70,
+      "notes": "First-pass schema. Requires Bruce approval before enforcement."
+    }
+  ],
+  "conflict_domains": [
+    {
+      "domain": "taxonomy",
+      "candidates": ["numbered (00-core … 90-archive)", "legacy unnumbered"],
+      "status": "unresolved",
+      "decision_ref": "CD-002"
+    },
+    {
+      "domain": "signal-format",
+      "candidates": ["versioned 60-signals spec", "legacy .signal front-matter"],
+      "status": "unresolved",
+      "decision_ref": "CD-001"
+    }
+  ],
+  "precedence_rules": [
+    "versioned + schema-backed > unversioned descriptive",
+    "explicit policy matrix > adapter-local convenience docs",
+    "numbered taxonomy > unnumbered unless grandfathered",
+    "explicit accepted decision records > implied practice",
+    "source evidence > reconstructed prose"
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "warehouse://canon/recovery-manifest-schema/0.1",
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "artifact": "RECOVERY_MANIFEST_SCHEMA",
+  "title": "Warehouse Recovery Manifest",
+  "description": "Schema for node recovery manifests. A recovery manifest must be sufficient to rebuild a node deterministically from authority artifacts. Every node that runs Warehouse components should have one.",
+  "type": "object",
+  "required": [
+    "node",
+    "manifest_version",
+    "authority_sources",
+    "required_repos",
+    "rebuild_steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "node": {
+      "type": "string",
+      "description": "Host or node identifier (e.g., 'x399', 'sanctuary-pi', 'dev-desktop').",
+      "minLength": 1
+    },
+    "manifest_version": {
+      "type": "string",
+      "description": "Version of this manifest. Semver recommended.",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp when this manifest was authored."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of most recent update."
+    },
+    "authority_sources": {
+      "type": "array",
+      "description": "Canonical authority paths or URIs required to rebuild this node.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "required_repos": {
+      "type": "array",
+      "description": "Git repositories that must be present and at a known-good ref.",
+      "items": {
+        "type": "object",
+        "required": ["repo", "ref"],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "description": "Repository URL or canonical short-name."
+          },
+          "ref": {
+            "type": "string",
+            "description": "Git ref (branch, tag, or commit SHA) that is authoritative for this node."
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "required_configs": {
+      "type": "array",
+      "description": "Configuration files or environment variables needed for rebuild.",
+      "items": {
+        "type": "object",
+        "required": ["name", "source"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Config name or env var."
+          },
+          "source": {
+            "type": "string",
+            "description": "Where this config comes from (vault path, secret name, file path)."
+          },
+          "required": {
+            "type": "boolean",
+            "default": true
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "required_agents": {
+      "type": "array",
+      "description": "Agent profiles or runtimes that must be present and initialized.",
+      "items": {
+        "type": "object",
+        "required": ["agent_id"],
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "verification_steps": {
+      "type": "array",
+      "description": "Ordered list of verification checks to run after rebuild to confirm correct state.",
+      "items": {
+        "type": "object",
+        "required": ["step", "check"],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Execution order (1-indexed)."
+          },
+          "check": {
+            "type": "string",
+            "description": "Human-readable description of what is being verified."
+          },
+          "command": {
+            "type": "string",
+            "description": "Optional shell command to run for automated verification."
+          },
+          "expected": {
+            "type": "string",
+            "description": "Expected output or exit condition."
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "rebuild_steps": {
+      "type": "array",
+      "description": "Ordered list of steps required to rebuild the node from scratch.",
+      "items": {
+        "type": "object",
+        "required": ["step", "description"],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Execution order (1-indexed)."
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of this rebuild step."
+          },
+          "command": {
+            "type": "string",
+            "description": "Optional shell command."
+          },
+          "depends_on": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "description": "Step numbers that must complete before this step.",
+            "default": []
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "lineage": {
+      "$ref": "warehouse://canon/lineage-schema/0.1",
+      "description": "Lineage record for this manifest, conforming to LINEAGE_SCHEMA.json."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes, known gaps, or recovery caveats."
+    }
+  }
+}
