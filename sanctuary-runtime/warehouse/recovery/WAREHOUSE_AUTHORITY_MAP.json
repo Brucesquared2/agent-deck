@@ -1,0 +1,389 @@
+{
+  "schema_version": "1.0",
+  "produced_at": "2026-06-10T03:05:00Z",
+  "produced_by": "Warehouse Archaeology Agent",
+  "corpus": {
+    "repository": "Brucesquared2/agent-deck",
+    "total_files": 911,
+    "file_breakdown": {
+      "go": 547,
+      "markdown": 69,
+      "typescript": 68,
+      "javascript": 33,
+      "shell": 30,
+      "json": 13,
+      "yaml": 12,
+      "python": 8
+    },
+    "exact_duplicate_families": 3
+  },
+  "authority_score_formula": {
+    "description": "Weighted sum for each candidate artifact",
+    "weights": {
+      "explicit_canonical_claim": 0.25,
+      "lineage_depth": 0.20,
+      "inbound_reference_density": 0.15,
+      "schema_consistency": 0.15,
+      "parser_alignment": 0.10,
+      "recency": 0.10,
+      "duplication_stability": 0.05
+    },
+    "note": "Scores below are qualitative estimates pending automated computation"
+  },
+  "artifact_families": [
+    {
+      "family_id": "AF-001",
+      "name": "Contributor Rules",
+      "canonical_path": "CLAUDE.md",
+      "artifact_type": "spec",
+      "authority_score": 0.97,
+      "score_breakdown": {
+        "explicit_canonical_claim": 1.0,
+        "lineage_depth": 0.9,
+        "inbound_reference_density": 1.0,
+        "schema_consistency": 1.0,
+        "parser_alignment": 0.9,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Root-level, referenced in every PR/commit decision; Go TOOLCHAIN pin enforced",
+      "notes": "Highest authority document in the corpus"
+    },
+    {
+      "family_id": "AF-002",
+      "name": "Session Persistence Spec",
+      "canonical_path": "docs/SESSION-PERSISTENCE-SPEC.md",
+      "artifact_type": "spec",
+      "authority_score": 0.93,
+      "score_breakdown": {
+        "explicit_canonical_claim": 1.0,
+        "lineage_depth": 0.9,
+        "inbound_reference_density": 0.9,
+        "schema_consistency": 1.0,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "References specific version v1.5.2; linked from CLAUDE.md test mandate",
+      "notes": "Authoritative for session lifecycle on Linux+systemd"
+    },
+    {
+      "family_id": "AF-003",
+      "name": "Session ID Lifecycle",
+      "canonical_path": "docs/session-id-lifecycle.md",
+      "artifact_type": "spec",
+      "authority_score": 0.92,
+      "score_breakdown": {
+        "explicit_canonical_claim": 1.0,
+        "lineage_depth": 0.85,
+        "inbound_reference_density": 0.9,
+        "schema_consistency": 1.0,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Explicitly states 'authoritative lifecycle'; referenced in code comments and CHANGELOG",
+      "notes": "Identity binding rules: ClaudeSessionID is sole authoritative source"
+    },
+    {
+      "family_id": "AF-004",
+      "name": "Per-Group Claude Config Spec",
+      "canonical_path": "docs/PER-GROUP-CLAUDE-CONFIG-SPEC.md",
+      "artifact_type": "spec",
+      "authority_score": 0.90,
+      "score_breakdown": {
+        "explicit_canonical_claim": 1.0,
+        "lineage_depth": 0.85,
+        "inbound_reference_density": 0.85,
+        "schema_consistency": 1.0,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "References canonical plugin-cache path, issue #602, phase 4 commit attribution",
+      "notes": "Covers conductor config, group precedence chain, skill SKILL.md update requirements"
+    },
+    {
+      "family_id": "AF-005",
+      "name": "Evaluator Harness RFC",
+      "canonical_path": "docs/rfc/EVALUATOR_HARNESS.md",
+      "artifact_type": "rfc",
+      "authority_score": 0.88,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.9,
+        "lineage_depth": 0.8,
+        "inbound_reference_density": 0.9,
+        "schema_consistency": 1.0,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Referenced in CLAUDE.md eval harness mandate; tied to .github/workflows/eval-smoke.yml",
+      "notes": "Governs when eval cases are required; linked to v1.7.35, v1.7.37 incident history"
+    },
+    {
+      "family_id": "AF-006",
+      "name": "Watcher Shared Knowledge Base",
+      "canonical_path": "assets/watcher-templates/CLAUDE.md",
+      "artifact_type": "template",
+      "authority_score": 0.84,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.8,
+        "lineage_depth": 0.8,
+        "inbound_reference_density": 0.75,
+        "schema_consistency": 0.9,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [
+        {
+          "path": "internal/watcher/assets/watcher-templates/CLAUDE.md",
+          "purpose": "go-embed compile-time reflection for binary distribution",
+          "sync_method": "exact copy",
+          "hash_match": true,
+          "diverged": false
+        }
+      ],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Explicitly documented in watcher_cmd_skills.go line 12; hash-verified identical",
+      "notes": "Only confirmed reflection pattern in corpus; canonical is repo-root assets/"
+    },
+    {
+      "family_id": "AF-007",
+      "name": "Watcher Policy",
+      "canonical_path": "assets/watcher-templates/POLICY.md",
+      "artifact_type": "template",
+      "authority_score": 0.84,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.8,
+        "lineage_depth": 0.8,
+        "inbound_reference_density": 0.75,
+        "schema_consistency": 0.9,
+        "parser_alignment": 0.8,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [
+        {
+          "path": "internal/watcher/assets/watcher-templates/POLICY.md",
+          "purpose": "go-embed compile-time reflection",
+          "sync_method": "exact copy",
+          "hash_match": true,
+          "diverged": false
+        }
+      ],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Same reflection family as AF-006; hash-verified identical",
+      "notes": "Behavior rules: escalation thresholds, dedup strategy, retry backoff"
+    },
+    {
+      "family_id": "AF-008",
+      "name": "Conductor Feature Documentation",
+      "canonical_path": "documentation/CONDUCTOR.md",
+      "artifact_type": "user-doc",
+      "authority_score": 0.78,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.7,
+        "lineage_depth": 0.8,
+        "inbound_reference_density": 0.8,
+        "schema_consistency": 0.8,
+        "parser_alignment": 0.7,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "User-facing; describes runtime directory layout, Telegram/Slack bot integration",
+      "notes": "Not spec-level but high-quality; documents ~/.agent-deck/conductor/ layout"
+    },
+    {
+      "family_id": "AF-009",
+      "name": "Watcher Feature Documentation",
+      "canonical_path": "documentation/WATCHERS.md",
+      "artifact_type": "user-doc",
+      "authority_score": 0.78,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.7,
+        "lineage_depth": 0.8,
+        "inbound_reference_density": 0.8,
+        "schema_consistency": 0.8,
+        "parser_alignment": 0.7,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "References 'authoritative read-out' for watcher routes; documents clients.json",
+      "notes": "Documents adapter types, routing, health states"
+    },
+    {
+      "family_id": "AF-010",
+      "name": "Signal-Lang Specification",
+      "canonical_path": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-lang.md",
+      "artifact_type": "spec",
+      "authority_score": 0.52,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.6,
+        "lineage_depth": 0.2,
+        "inbound_reference_density": 0.3,
+        "schema_consistency": 0.8,
+        "parser_alignment": 0.7,
+        "recency": 1.0,
+        "duplication_stability": 0.9
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "medium",
+      "lineage_evidence": "Chat-derived; initial spec only; JSON Schema exists but no parser",
+      "notes": "Authority score penalized for low lineage depth and no inbound references yet; must be promoted through implementation"
+    },
+    {
+      "family_id": "AF-011",
+      "name": "Signal-Lang JSON Schema",
+      "canonical_path": "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-schema.json",
+      "artifact_type": "schema",
+      "authority_score": 0.55,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.5,
+        "lineage_depth": 0.3,
+        "inbound_reference_density": 0.3,
+        "schema_consistency": 1.0,
+        "parser_alignment": 1.0,
+        "recency": 1.0,
+        "duplication_stability": 0.9
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "medium",
+      "lineage_evidence": "JSON Schema draft-07; companion to AF-010; well-formed",
+      "notes": "Schema is well-formed but untested; authority increases once validated against real signals"
+    },
+    {
+      "family_id": "AF-012",
+      "name": "Memory Taxonomy Structure",
+      "canonical_path": "sanctuary-runtime/agent-runtime/shared/memory/",
+      "artifact_type": "taxonomy",
+      "authority_score": 0.48,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.5,
+        "lineage_depth": 0.2,
+        "inbound_reference_density": 0.3,
+        "schema_consistency": 0.7,
+        "parser_alignment": 0.3,
+        "recency": 1.0,
+        "duplication_stability": 0.9
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "medium",
+      "lineage_evidence": "Chat-derived; good structure but no enforcement mechanism",
+      "notes": "High potential; low current authority due to no references from existing codebase"
+    },
+    {
+      "family_id": "AF-013",
+      "name": "Warehouse Specification (this document's companion)",
+      "canonical_path": "sanctuary-runtime/warehouse/recovery/WAREHOUSE_SPECIFICATION.md",
+      "artifact_type": "spec",
+      "authority_score": 0.42,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.6,
+        "lineage_depth": 0.6,
+        "inbound_reference_density": 0.1,
+        "schema_consistency": 0.7,
+        "parser_alignment": 0.3,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "medium",
+      "lineage_evidence": "Synthesized from corpus; cites 12 source artifacts; not yet human-blessed",
+      "notes": "Seed authority candidate; requires human review and blessing to become canonical"
+    },
+    {
+      "family_id": "AF-014",
+      "name": "Vagrant Mode Design Document",
+      "canonical_path": ".claude/plans/2026-02-14-vagrant-mode-design.md",
+      "artifact_type": "design-doc",
+      "authority_score": 0.35,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.2,
+        "lineage_depth": 0.5,
+        "inbound_reference_density": 0.3,
+        "schema_consistency": 0.5,
+        "parser_alignment": 0.2,
+        "recency": 0.9,
+        "duplication_stability": 0.5
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "medium",
+      "lineage_evidence": ".claude/plans/SESSION-HANDOFF.md references '621 lines'; decisions recorded in DECISIONS.md",
+      "notes": "Session-local location reduces authority score; should be promoted to docs/"
+    },
+    {
+      "family_id": "AF-015",
+      "name": "Changelog",
+      "canonical_path": "CHANGELOG.md",
+      "artifact_type": "history",
+      "authority_score": 0.85,
+      "score_breakdown": {
+        "explicit_canonical_claim": 0.8,
+        "lineage_depth": 1.0,
+        "inbound_reference_density": 0.85,
+        "schema_consistency": 0.8,
+        "parser_alignment": 0.6,
+        "recency": 1.0,
+        "duplication_stability": 1.0
+      },
+      "reflection_copies": [],
+      "archive_copies": [],
+      "confidence": "high",
+      "lineage_evidence": "Rich issue/PR references (#745, #675, #687, etc.); detailed commit attribution",
+      "notes": "Authoritative version history; strong lineage evidence for feature implementations"
+    }
+  ],
+  "duplicate_families": [
+    {
+      "hash": "c4ccf2c16478ac35e8577b8692b9b8ab",
+      "canonical": "assets/watcher-templates/CLAUDE.md",
+      "reflections": ["internal/watcher/assets/watcher-templates/CLAUDE.md"],
+      "relationship": "compile-time go-embed reflection",
+      "conflict": false
+    },
+    {
+      "hash": "ce902b837b31f9b7340c0bb478c2420f",
+      "canonical": "assets/watcher-templates/LEARNINGS.md",
+      "reflections": ["internal/watcher/assets/watcher-templates/LEARNINGS.md"],
+      "relationship": "compile-time go-embed reflection",
+      "conflict": false
+    },
+    {
+      "hash": "d3cc8c9f475340a1ba681119b9a64900",
+      "canonical": "assets/watcher-templates/POLICY.md",
+      "reflections": ["internal/watcher/assets/watcher-templates/POLICY.md"],
+      "relationship": "compile-time go-embed reflection",
+      "conflict": false
+    }
+  ]
+}

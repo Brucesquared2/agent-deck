@@ -1,0 +1,20 @@
+# Agent Deck configuration stub for agent-runtime
+# See repository docs/CONFIG.md for the full reference.
+
+[runtime]
+# workdir = "."
+# log_level = "info"
+
+[memory]
+index   = "../shared/memory/50-maps/INDEX.md"
+signals = "../shared/memory/60-signals/"
+sessions = "../shared/memory/30-sessions/"
+
+[conductors]
+dir = "./conductors"
+
+[skills]
+# Populated by scripts/sync-skills.sh agent-deck
+dir = "./skills"
+
+# TODO: fill in project-specific settings

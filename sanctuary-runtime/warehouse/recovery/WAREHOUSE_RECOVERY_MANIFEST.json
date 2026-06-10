@@ -1,0 +1,244 @@
+{
+  "schema_version": "1.0",
+  "produced_at": "2026-06-10T03:05:00Z",
+  "produced_by": "Warehouse Archaeology Agent",
+  "status": "draft — awaiting human operator review",
+  "description": "Action plan to continue Warehouse reconstruction after initial archaeology phase.",
+  "completed_phases": [
+    {
+      "phase": "inventory",
+      "description": "Enumerated all 911 artifacts by path, extension, size, and hash.",
+      "completed_at": "2026-06-10T03:05:00Z"
+    },
+    {
+      "phase": "classify",
+      "description": "Classified artifacts into spec, schema, code, notes, manifest, agent-prompt, template, history categories.",
+      "completed_at": "2026-06-10T03:05:00Z"
+    },
+    {
+      "phase": "authority-candidate-detection",
+      "description": "Scored 15 artifact families. Confirmed 3 duplicate/reflection families. Identified 5 P0 authority candidates (CLAUDE.md, 3 spec docs, CHANGELOG.md).",
+      "completed_at": "2026-06-10T03:05:00Z"
+    },
+    {
+      "phase": "lineage-reconstruction",
+      "description": "Traced reflection families. Identified chat-derived artifacts. Noted session-local documents at risk of loss.",
+      "completed_at": "2026-06-10T03:05:00Z"
+    },
+    {
+      "phase": "synthesis",
+      "description": "Produced WAREHOUSE_SPECIFICATION.md, WAREHOUSE_GAP_ANALYSIS.md, WAREHOUSE_AUTHORITY_MAP.json.",
+      "completed_at": "2026-06-10T03:05:00Z"
+    }
+  ],
+  "pending_phases": [
+    {
+      "phase": "human-review",
+      "description": "Human operator blesses canonical documents and resolves open questions from WAREHOUSE_SPECIFICATION.md §15.",
+      "blocked_by": [],
+      "priority": "P0"
+    }
+  ],
+  "recovery_items": [
+    {
+      "id": "RM-01",
+      "title": "Implement Signal-Lang parser",
+      "priority": "P0",
+      "gap_ref": "G-01",
+      "description": "Build a parser/validator for Signal-Lang (YAML-in-Markdown). Must validate signals against signal-schema.json and produce normalized JSON output.",
+      "inputs": [
+        "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-lang.md",
+        "sanctuary-runtime/agent-runtime/shared/memory/60-signals/signal-schema.json",
+        "sanctuary-runtime/agent-runtime/shared/memory/60-signals/examples.md"
+      ],
+      "outputs": [
+        "sanctuary-runtime/agent-runtime/scripts/validate-signal.py (or .sh)",
+        "A test suite covering all five signal types"
+      ],
+      "recommended_agent": "Implementer (Aider)",
+      "estimated_effort": "small — schema exists, just needs validator",
+      "authority_impact": "Raises AF-010 and AF-011 scores significantly"
+    },
+    {
+      "id": "RM-02",
+      "title": "Define and implement lineage tracking schema",
+      "priority": "P0",
+      "gap_ref": "G-02",
+      "description": "Create a JSON Schema for lineage records (provenance.json). Add a script that generates lineage records for new memory artifacts. Promote .claude/plans/DECISIONS.md decisions to docs/.",
+      "inputs": [
+        "WAREHOUSE_SPECIFICATION.md §9",
+        ".claude/plans/DECISIONS.md (promote relevant entries)"
+      ],
+      "outputs": [
+        "sanctuary-runtime/agent-runtime/shared/memory/00-core/lineage-schema.json",
+        "sanctuary-runtime/agent-runtime/scripts/record-lineage.sh",
+        "docs/VAGRANT-MODE-SPEC.md (promoted from .claude/plans/)"
+      ],
+      "recommended_agent": "Planner + Implementer",
+      "estimated_effort": "medium",
+      "authority_impact": "Enables trust chain for all sanctuary-runtime artifacts"
+    },
+    {
+      "id": "RM-03",
+      "title": "Implement authority scoring script",
+      "priority": "P1",
+      "gap_ref": "G-03",
+      "description": "Build a script (Python preferred for JSON/regex parsing) that computes authority_score for a set of Markdown files using the formula in WAREHOUSE_SPECIFICATION.md §C.",
+      "inputs": [
+        "WAREHOUSE_SPECIFICATION.md §C (Appendix C)",
+        "WAREHOUSE_AUTHORITY_MAP.json (as training reference for qualitative scores)"
+      ],
+      "outputs": [
+        "sanctuary-runtime/warehouse/tools/score-authority.py",
+        "sanctuary-runtime/warehouse/tools/README.md"
+      ],
+      "recommended_agent": "Implementer (OpenCode)",
+      "estimated_effort": "medium",
+      "authority_impact": "Makes archaeology reproducible and auditable"
+    },
+    {
+      "id": "RM-04",
+      "title": "Implement memory taxonomy enforcement",
+      "priority": "P1",
+      "gap_ref": "G-04",
+      "description": "Complete the stub scripts: refresh-indexes.sh (build 50-maps/ INDEX.md from file scan), new-session.sh (create 30-sessions/ entry), summarize-session.sh (compress to 20-projects/). Add a lint rule checking tier naming conventions.",
+      "inputs": [
+        "sanctuary-runtime/agent-runtime/scripts/refresh-indexes.sh (stub)",
+        "sanctuary-runtime/agent-runtime/scripts/new-session.sh (stub)",
+        "sanctuary-runtime/agent-runtime/scripts/summarize-session.sh (stub)",
+        "sanctuary-runtime/agent-runtime/shared/memory/50-maps/MEMORY_MAP.md"
+      ],
+      "outputs": [
+        "Working implementations of the three stub scripts",
+        "sanctuary-runtime/agent-runtime/scripts/lint-memory.sh"
+      ],
+      "recommended_agent": "Implementer (Aider)",
+      "estimated_effort": "medium",
+      "authority_impact": "Makes memory taxonomy self-maintaining"
+    },
+    {
+      "id": "RM-05",
+      "title": "Promote Vagrant Mode design to docs/",
+      "priority": "P1",
+      "gap_ref": "G-05",
+      "description": "Read .claude/plans/2026-02-14-vagrant-mode-design.md and create a formal docs/VAGRANT-MODE-SPEC.md. Record the decision to promote in DECISION_LOG.md.",
+      "inputs": [
+        ".claude/plans/2026-02-14-vagrant-mode-design.md",
+        ".claude/plans/DECISIONS.md"
+      ],
+      "outputs": [
+        "docs/VAGRANT-MODE-SPEC.md",
+        "sanctuary-runtime/agent-runtime/shared/memory/50-maps/DECISION_LOG.md (update)"
+      ],
+      "recommended_agent": "Planner",
+      "estimated_effort": "small",
+      "authority_impact": "Prevents loss of 621-line design document on branch deletion"
+    },
+    {
+      "id": "RM-06",
+      "title": "Create watcher event JSON Schema",
+      "priority": "P2",
+      "gap_ref": "G-06",
+      "description": "Extract watcher event Go structs from internal/watcher/ and produce a standalone watcher-event-schema.json for non-Go consumers.",
+      "inputs": [
+        "internal/watcher/*.go (struct definitions)",
+        "internal/statedb/statedb.go (watcher_events table schema)"
+      ],
+      "outputs": [
+        "docs/schemas/watcher-event-schema.json",
+        "docs/WATCHER-EVENT-SPEC.md"
+      ],
+      "recommended_agent": "Implementer (OpenCode)",
+      "estimated_effort": "small",
+      "authority_impact": "Raises AF-009 score; enables non-Go integration"
+    },
+    {
+      "id": "RM-07",
+      "title": "Create unified retention policy document",
+      "priority": "P2",
+      "gap_ref": "G-08",
+      "description": "Synthesize retention rules from CHANGELOG.md, cmd/agent-deck/main.go, and POLICY.md into a single RETENTION-POLICY.md.",
+      "inputs": [
+        "CHANGELOG.md (log rotation section)",
+        "cmd/agent-deck/main.go (retention cleanup call)",
+        "assets/watcher-templates/POLICY.md"
+      ],
+      "outputs": [
+        "docs/RETENTION-POLICY.md"
+      ],
+      "recommended_agent": "Planner",
+      "estimated_effort": "small",
+      "authority_impact": "Fills gap G-08; provides L7 governance document"
+    },
+    {
+      "id": "RM-08",
+      "title": "Test and validate VRAM telemetry stack",
+      "priority": "P2",
+      "gap_ref": "G-09",
+      "description": "Add dry-run test for reviewer-vram-check.sh with a mock Prometheus response. Document the procedure to verify DCGM exporter connectivity.",
+      "inputs": [
+        "sanctuary-runtime/telemetry/reviewer-vram-check.sh",
+        "sanctuary-runtime/telemetry/prometheus.yml"
+      ],
+      "outputs": [
+        "sanctuary-runtime/telemetry/tests/test-vram-check.sh (mock Prometheus test)",
+        "sanctuary-runtime/telemetry/docs/GPU_TELEMETRY_LAYER.md (update with verification steps)"
+      ],
+      "recommended_agent": "Implementer (Aider)",
+      "estimated_effort": "small",
+      "authority_impact": "Raises telemetry confidence from medium to high"
+    },
+    {
+      "id": "RM-09",
+      "title": "Human review and canonical blessing",
+      "priority": "P0 — blocking all others for final authority",
+      "gap_ref": "A-01, A-02, A-03, A-04, A-05",
+      "description": "Human operator reviews WAREHOUSE_SPECIFICATION.md, resolves open questions in §15, and blesses the document as canonical. Answers: Is sanctuary-runtime/ permanent? Should authority score formula be normative? Does task-log.md map to L0 or L2?",
+      "inputs": [
+        "sanctuary-runtime/warehouse/recovery/WAREHOUSE_SPECIFICATION.md",
+        "sanctuary-runtime/warehouse/recovery/WAREHOUSE_GAP_ANALYSIS.md",
+        "sanctuary-runtime/warehouse/recovery/WAREHOUSE_AUTHORITY_MAP.json"
+      ],
+      "outputs": [
+        "WAREHOUSE_SPECIFICATION.md (status updated to 'canonical — human-blessed')",
+        "sanctuary-runtime/agent-runtime/shared/memory/00-core/README.md (record blessing)"
+      ],
+      "recommended_agent": "Human operator",
+      "estimated_effort": "review session",
+      "authority_impact": "Unlocks all downstream archaeology items"
+    }
+  ],
+  "next_agent_prompt": "You are the Warehouse Implementation Agent. The archaeology phase is complete. Your job is to implement the recovery items from WAREHOUSE_RECOVERY_MANIFEST.json, starting with RM-01 (Signal-Lang parser) and RM-04 (memory taxonomy enforcement scripts). Read WAREHOUSE_SPECIFICATION.md and WAREHOUSE_GAP_ANALYSIS.md first. Do not bless any document as canonical — that is reserved for the human operator per RM-09.",
+  "open_questions": [
+    {
+      "id": "OQ-01",
+      "question": "Is sanctuary-runtime/ a permanent top-level namespace or a bootstrap scaffold to be migrated into agent-runtime/ proper?",
+      "options": [
+        "Keep as sanctuary-runtime/ permanently (clear boundary from existing code)",
+        "Rename to agent-runtime/ once stable (unified naming)"
+      ],
+      "blocking": ["RM-02", "RM-03", "RM-04"],
+      "decision_by": "Human operator"
+    },
+    {
+      "id": "OQ-02",
+      "question": "Should conductor task-log.md entries be treated as L0 events or L2 narrative?",
+      "options": [
+        "L0 events: immutable, append-only, structured",
+        "L2 narrative: human-readable, not machine-parsed"
+      ],
+      "blocking": ["RM-01"],
+      "decision_by": "Human operator"
+    },
+    {
+      "id": "OQ-03",
+      "question": "Is the authority score formula normative (required for all archaeology) or illustrative (reference only)?",
+      "options": [
+        "Normative: implement in score-authority.py, enforce in CI",
+        "Illustrative: human judgment with formula as guide"
+      ],
+      "blocking": ["RM-03"],
+      "decision_by": "Human operator"
+    }
+  ]
+}

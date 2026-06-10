@@ -1,0 +1,44 @@
+version: "3.8"
+
+# docker-compose.dcgm-node.yml
+# Runs the NVIDIA DCGM exporter on a single GPU node.
+# This compose file belongs on each GPU node (EPYC, Threadripper, etc.).
+#
+# Prerequisites:
+#   - NVIDIA Container Toolkit installed (see scripts/install-nvidia-container-toolkit.sh)
+#   - DCGM exporter image available
+#
+# TODO: adjust DCGM_EXPORTER_PORT and node labels as needed.
+
+services:
+  dcgm-exporter:
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.0-ubuntu22.04  # TODO: pin to desired version
+    restart: unless-stopped
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      # TODO: set DCGM_EXPORTER_COLLECTORS path if using custom metrics file
+    ports:
+      - "9400:9400"   # Prometheus scrape port — open to Prometheus hub only
+    cap_add:
+      - SYS_ADMIN    # Required for DCGM profiling metrics
+    labels:
+      - "sanctuary.role=dcgm-node"
+      - "sanctuary.node=TODO-SET-NODE-NAME"  # TODO: set to hostname or node identifier
+
+  # Optional: node-exporter for CPU/memory/disk metrics alongside GPU
+  node-exporter:
+    image: prom/node-exporter:v1.8.0  # TODO: pin to desired version
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    labels:
+      - "sanctuary.role=node-exporter"

@@ -1,0 +1,15 @@
+# OpenCode configuration stub for agent-runtime
+# See: https://opencode.ai/docs/config
+
+[model]
+# provider = "anthropic"
+# model    = "claude-sonnet-4-5"
+
+[context]
+memory_index = "../shared/memory/50-maps/INDEX.md"
+skills_dir   = "./skills"
+
+[mcp]
+# servers = ["../shared/mcp/servers/filesystem.json"]
+
+# TODO: fill in project-specific settings

@@ -1,0 +1,44 @@
+version: "3.8"
+
+# docker-compose.prometheus-hub.yml
+# Runs the central Prometheus hub that scrapes all DCGM nodes.
+# This compose file belongs on the Cockpit / hub node.
+#
+# TODO:
+#   - Edit prometheus.yml to add your GPU node IPs/hostnames
+#   - Optionally add Grafana for dashboards
+#   - Set PROMETHEUS_RETENTION and PROMETHEUS_PORT as needed
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.52.0  # TODO: pin to desired version
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"   # TODO: adjust retention
+      - "--web.enable-lifecycle"               # Allows config reload via POST /-/reload
+    ports:
+      - "9090:9090"   # Prometheus UI and API
+    labels:
+      - "sanctuary.role=prometheus-hub"
+
+  # Optional: Grafana for visualization
+  # grafana:
+  #   image: grafana/grafana:10.4.0   # TODO: pin to desired version
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=TODO-CHANGE-ME
+  #   labels:
+  #     - "sanctuary.role=grafana"
+
+volumes:
+  prometheus_data:
+  # grafana_data:

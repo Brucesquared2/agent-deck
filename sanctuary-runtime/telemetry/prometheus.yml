@@ -1,0 +1,72 @@
+# prometheus.yml — Central Prometheus hub configuration
+#
+# Scrapes DCGM exporters on each GPU node and node-exporters.
+#
+# TODO:
+#   - Replace TODO-NODE-* placeholders with actual hostnames or IPs
+#   - Add or remove scrape_configs entries to match your cluster
+#   - Adjust scrape_interval as needed
+
+global:
+  scrape_interval: 15s       # How often to scrape targets
+  evaluation_interval: 15s   # How often to evaluate alerting rules
+  external_labels:
+    cluster: sanctuary        # TODO: change to your cluster name
+
+# Alerting rules (optional — add alert rule files here)
+# rule_files:
+#   - "alerts/*.yml"
+
+scrape_configs:
+  # ── DCGM exporters (one entry per GPU node) ─────────────────────────────
+  - job_name: dcgm-epyc
+    static_configs:
+      - targets:
+          - "TODO-EPYC-NODE-IP:9400"   # TODO: replace with EPYC node IP/hostname
+        labels:
+          node: epyc
+          role: gpu-node
+
+  - job_name: dcgm-threadripper
+    static_configs:
+      - targets:
+          - "TODO-THREADRIPPER-NODE-IP:9400"  # TODO: replace with Threadripper node IP/hostname
+        labels:
+          node: threadripper
+          role: gpu-node
+
+  - job_name: dcgm-cockpit
+    static_configs:
+      - targets:
+          - "TODO-COCKPIT-NODE-IP:9400"  # TODO: replace with Cockpit node IP/hostname
+        labels:
+          node: cockpit
+          role: gpu-node
+
+  # ── Node exporters (CPU/memory/disk) ────────────────────────────────────
+  - job_name: node-epyc
+    static_configs:
+      - targets:
+          - "TODO-EPYC-NODE-IP:9100"
+        labels:
+          node: epyc
+
+  - job_name: node-threadripper
+    static_configs:
+      - targets:
+          - "TODO-THREADRIPPER-NODE-IP:9100"
+        labels:
+          node: threadripper
+
+  - job_name: node-cockpit
+    static_configs:
+      - targets:
+          - "TODO-COCKPIT-NODE-IP:9100"
+        labels:
+          node: cockpit
+
+  # ── Prometheus self-monitoring ───────────────────────────────────────────
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - "localhost:9090"
