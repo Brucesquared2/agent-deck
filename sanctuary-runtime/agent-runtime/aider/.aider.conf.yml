@@ -1,0 +1,14 @@
+# Aider configuration stub for agent-runtime
+# See: https://aider.chat/docs/config/aider_conf.html
+
+# model: claude-sonnet-4-5
+# weak-model: claude-haiku-4-5
+
+read:
+  - ../shared/memory/50-maps/INDEX.md
+  - ../shared/memory/50-maps/MEMORY_MAP.md
+
+# conventions-files:
+#   - ./skills/code/style.md
+
+# TODO: fill in project-specific settings

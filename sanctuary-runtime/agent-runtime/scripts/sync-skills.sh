@@ -4,7 +4,7 @@
 # Usage:
 #   sync-skills.sh [adapter]
 #
-# adapter: opencode | aider | pi | all (default: all)
+# adapter: opencode | aider | pi | agent-deck | all (default: all)
 #
 # POSIX sh. No external dependencies.
 
@@ -31,16 +31,16 @@ sync_adapter() {
 }
 
 case "$adapter" in
-    opencode|aider|pi)
+    opencode|aider|pi|agent-deck)
         sync_adapter "$adapter"
         ;;
     all)
-        for a in opencode aider pi; do
+        for a in opencode aider pi agent-deck; do
             sync_adapter "$a" || true
         done
         ;;
     *)
-        echo "Usage: $0 [opencode|aider|pi|all]" >&2
+        echo "Usage: $0 [opencode|aider|pi|agent-deck|all]" >&2
         exit 1
         ;;
 esac
