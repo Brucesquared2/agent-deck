@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "artifact": "WAREHOUSE_AUTHORITY_MAP",
+  "description": "Provisional authority registry for the Warehouse canon. Maps each artifact family to its single authoritative source and records conflict domains pending resolution.",
+  "conflict_domains": [
+    {
+      "id": "CD-TAXONOMY",
+      "description": "Numbered taxonomy vs. legacy unnumbered taxonomy",
+      "resolution": "pending — see CANONIZATION_DECISIONS.md CD-002"
+    },
+    {
+      "id": "CD-SIGNAL",
+      "description": "YAML-in-Markdown signal format vs. legacy .signal front-matter",
+      "resolution": "pending — see CANONIZATION_DECISIONS.md CD-001"
+    },
+    {
+      "id": "CD-LINEAGE",
+      "description": "Lineage schema does not yet exist as a first-class artifact",
+      "resolution": "pending — see LINEAGE_SCHEMA.json"
+    },
+    {
+      "id": "CD-RECOVERY",
+      "description": "Recovery manifest schema does not yet exist as a first-class artifact",
+      "resolution": "pending — see RECOVERY_MANIFEST_SCHEMA.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "warehouse-specification",
+      "authority": "warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+      "status": "candidate",
+      "confidence": 0.80,
+      "conflict_domains": [],
+      "notes": "Provisional candidate. Requires Bruce approval to advance to canonical."
+    },
+    {
+      "name": "memory-write-authority",
+      "authority": "agent-runtime/shared/memory/00-core/policies.md",
+      "status": "candidate",
+      "confidence": 0.95,
+      "conflict_domains": [],
+      "notes": "Strong source evidence. Explicit layer write-control table. Planner-owned."
+    },
+    {
+      "name": "memory-taxonomy",
+      "authority": "agent-runtime/shared/memory/50-maps/MEMORY_MAP.md",
+      "status": "candidate",
+      "confidence": 0.90,
+      "conflict_domains": ["CD-TAXONOMY"],
+      "notes": "Numbered zones (00-core … 90-archive). Conflict with legacy unnumbered zones pending resolution."
+    },
+    {
+      "name": "memory-taxonomy-legacy",
+      "authority": "agent-runtime/shared/memory/maps/MEMORY_MAP.md",
+      "status": "legacy-active",
+      "confidence": 0.40,
+      "conflict_domains": ["CD-TAXONOMY"],
+      "notes": "Legacy unnumbered zones. Grandfathered until migration note is published."
+    },
+    {
+      "name": "signal-lang-spec",
+      "authority": "agent-runtime/shared/memory/60-signals/signal-lang.md",
+      "status": "candidate",
+      "confidence": 0.90,
+      "conflict_domains": ["CD-SIGNAL"],
+      "notes": "Version 1.0, YAML-in-Markdown, ADR-001 accepted. Conflict with .signal front-matter format pending resolution."
+    },
+    {
+      "name": "signal-lang-schema",
+      "authority": "agent-runtime/shared/memory/60-signals/signal-schema.json",
+      "status": "candidate",
+      "confidence": 0.93,
+      "conflict_domains": ["CD-SIGNAL"],
+      "notes": "JSON Schema Draft-07, additionalProperties: false, 5 typed signal variants."
+    },
+    {
+      "name": "signal-lang-legacy",
+      "authority": "agent-runtime/shared/memory/signals/README.md",
+      "status": "legacy-active",
+      "confidence": 0.35,
+      "conflict_domains": ["CD-SIGNAL"],
+      "notes": "Legacy .signal front-matter format. Created after ADR-001. Grandfathered until migration note is published."
+    },
+    {
+      "name": "decision-log",
+      "authority": "agent-runtime/shared/memory/50-maps/DECISION_LOG.md",
+      "status": "candidate",
+      "confidence": 0.92,
+      "conflict_domains": [],
+      "notes": "ADR-001, ADR-002, ADR-003 committed. Append-only by policy."
+    },
+    {
+      "name": "north-star",
+      "authority": "agent-runtime/shared/memory/00-core/north-star.md",
+      "status": "candidate",
+      "confidence": 0.88,
+      "conflict_domains": [],
+      "notes": "System purpose and values. Planner-owned."
+    },
+    {
+      "name": "agent-contracts",
+      "authority": "agent-runtime/shared/agents/",
+      "status": "candidate",
+      "confidence": 0.75,
+      "conflict_domains": ["CD-TAXONOMY", "CD-SIGNAL"],
+      "notes": "Four agent contracts (planner, implementer, reviewer, pi). Each currently embeds two prompt templates — one per taxonomy. Must be unified after taxonomy decision."
+    },
+    {
+      "name": "lineage-schema",
+      "authority": "warehouse/canon/LINEAGE_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.60,
+      "conflict_domains": ["CD-LINEAGE"],
+      "notes": "First-pass schema. No blessed predecessor. Requires Bruce approval."
+    },
+    {
+      "name": "recovery-manifest-schema",
+      "authority": "warehouse/canon/RECOVERY_MANIFEST_SCHEMA.json",
+      "status": "candidate",
+      "confidence": 0.60,
+      "conflict_domains": ["CD-RECOVERY"],
+      "notes": "First-pass schema. No blessed predecessor. Requires Bruce approval."
+    },
+    {
+      "name": "canonization-decisions",
+      "authority": "warehouse/canon/CANONIZATION_DECISIONS.md",
+      "status": "candidate",
+      "confidence": 0.70,
+      "conflict_domains": [],
+      "notes": "CD-001 through CD-004 proposed. None yet blessed."
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Brucesquared2/agent-deck/warehouse/canon/RECOVERY_MANIFEST_SCHEMA.json",
+  "title": "WarehouseRecoveryManifest",
+  "description": "Provisional schema for Warehouse node recovery manifests. A recovery manifest describes how to deterministically rebuild a node (machine, environment, runtime context) from authority artifacts. Status: candidate v0.1.",
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "type": "object",
+  "required": [
+    "node",
+    "manifest_id",
+    "created_at",
+    "created_by",
+    "authority_sources",
+    "verification_steps",
+    "rebuild_steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "node": {
+      "type": "string",
+      "description": "Identifier for the node or environment this manifest rebuilds.",
+      "examples": ["x399", "dev-workstation", "ci-runner", "agent-runtime"]
+    },
+    "manifest_id": {
+      "type": "string",
+      "description": "Unique manifest identifier. Format: <YYYYMMDD>-<node>-<short-id>.",
+      "pattern": "^[0-9]{8}-[a-z][a-z0-9-]+-[a-z0-9]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when this manifest was created."
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Agent or human identifier that authored this manifest.",
+      "examples": ["planner", "pi", "bruce"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Lifecycle status of this manifest.",
+      "enum": ["draft", "candidate", "canonical", "deprecated"],
+      "default": "draft"
+    },
+    "authority_sources": {
+      "type": "array",
+      "description": "Repository-relative paths or URIs to the authoritative artifacts required to rebuild this node.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_repos": {
+      "type": "array",
+      "description": "Repository names or URLs that must be present for a complete rebuild.",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "required_configs": {
+      "type": "array",
+      "description": "Configuration files, environment variables, or secrets required for rebuild.",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Config file path, env var name, or secret name."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this config controls and where to find or generate it."
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether this config is mandatory for a minimal rebuild.",
+            "default": true
+          }
+        }
+      }
+    },
+    "required_agents": {
+      "type": "array",
+      "description": "Agent identifiers that must be available or running for this node to function.",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "verification_steps": {
+      "type": "array",
+      "description": "Ordered list of steps to verify the node was rebuilt correctly.",
+      "items": {
+        "type": "object",
+        "required": ["step", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Step number (1-indexed).",
+            "minimum": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "What to check and what success looks like."
+          },
+          "command": {
+            "type": ["string", "null"],
+            "description": "Optional shell command that can be run to verify this step."
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "rebuild_steps": {
+      "type": "array",
+      "description": "Ordered list of steps to rebuild the node from authority artifacts.",
+      "items": {
+        "type": "object",
+        "required": ["step", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Step number (1-indexed).",
+            "minimum": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "What to do in this step."
+          },
+          "command": {
+            "type": ["string", "null"],
+            "description": "Optional shell command for this step."
+          },
+          "depends_on_step": {
+            "type": ["integer", "null"],
+            "description": "Step number that must complete before this step can run."
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "lineage": {
+      "type": ["object", "null"],
+      "description": "Optional lineage record conforming to LINEAGE_SCHEMA.json.",
+      "properties": {
+        "artifact_id": { "type": "string" },
+        "derived_from": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Lowercase hyphen-separated tags for indexing.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable notes about this manifest."
+    }
+  },
+  "examples": [
+    {
+      "node": "agent-runtime",
+      "manifest_id": "20260429-agent-runtime-init",
+      "created_at": "2026-04-29T00:00:00Z",
+      "created_by": "planner",
+      "status": "candidate",
+      "authority_sources": [
+        "warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+        "agent-runtime/shared/memory/00-core/policies.md",
+        "agent-runtime/shared/memory/60-signals/signal-lang.md"
+      ],
+      "required_repos": ["Brucesquared2/agent-deck"],
+      "required_configs": [
+        {
+          "name": "agent-runtime/agent-deck/config.toml",
+          "description": "Agent Deck adapter configuration",
+          "required": true
+        }
+      ],
+      "required_agents": ["planner", "implementer", "reviewer", "pi"],
+      "verification_steps": [
+        {
+          "step": 1,
+          "description": "Confirm warehouse/canon/ contains all nine canonical files",
+          "command": "ls warehouse/canon/ | wc -l"
+        },
+        {
+          "step": 2,
+          "description": "Confirm agent-runtime/shared/memory/00-core/policies.md is readable",
+          "command": "test -f agent-runtime/shared/memory/00-core/policies.md"
+        }
+      ],
+      "rebuild_steps": [
+        {
+          "step": 1,
+          "description": "Clone the authority repository",
+          "command": "git clone https://github.com/Brucesquared2/agent-deck",
+          "depends_on_step": null
+        },
+        {
+          "step": 2,
+          "description": "Run sync-skills to populate adapter directories from shared canon",
+          "command": "bash agent-runtime/scripts/sync-skills.sh",
+          "depends_on_step": 1
+        }
+      ],
+      "lineage": null,
+      "tags": ["agent-runtime", "candidate", "recovery"],
+      "notes": "Initial recovery manifest for the agent-runtime node."
+    }
+  ]
+}
