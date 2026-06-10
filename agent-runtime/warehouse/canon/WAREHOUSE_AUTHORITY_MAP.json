@@ -1,0 +1,93 @@
+{
+  "status": "candidate",
+  "version": "0.1",
+  "authority": "provisional",
+  "artifact": "WAREHOUSE_AUTHORITY_MAP",
+  "description": "Registry of authoritative sources for each Warehouse artifact family. Each entry names the single canonical location. Non-authoritative mirrors, reflections, and generated copies must not be treated as truth.",
+  "precedence_rules": [
+    "versioned + schema-backed artifact supersedes unversioned descriptive artifact",
+    "explicit policy matrix supersedes adapter-local convenience docs",
+    "numbered taxonomy supersedes unnumbered taxonomy unless explicitly grandfathered",
+    "explicit accepted decision records supersede implied practice",
+    "source evidence supersedes reconstructed prose"
+  ],
+  "conflict_domains": [
+    {
+      "domain": "taxonomy",
+      "candidates": [
+        { "id": "numbered-taxonomy", "path": "50-maps/MEMORY_MAP.md", "status": "preferred-candidate" },
+        { "id": "unnumbered-taxonomy", "path": "legacy/", "status": "active-legacy" }
+      ],
+      "resolution": "DECISION_REQUIRED",
+      "decision_ref": "CD-002"
+    },
+    {
+      "domain": "signal-format",
+      "candidates": [
+        { "id": "versioned-signal-lang", "path": "60-signals/signal-lang.md", "status": "preferred-candidate" },
+        { "id": "legacy-signal-frontmatter", "path": "legacy/*.signal", "status": "active-legacy" }
+      ],
+      "resolution": "DECISION_REQUIRED",
+      "decision_ref": "CD-001"
+    }
+  ],
+  "artifact_families": [
+    {
+      "name": "authority-and-policy",
+      "authority_source": "00-core/policies.md",
+      "status": "candidate",
+      "confidence": 0.88,
+      "notes": "Explicit write-governance and authority rules found in recovered docs."
+    },
+    {
+      "name": "memory-taxonomy",
+      "authority_source": "50-maps/MEMORY_MAP.md",
+      "status": "candidate",
+      "confidence": 0.82,
+      "notes": "Numbered tree preferred. Legacy unnumbered tree still active; requires deprecation decision."
+    },
+    {
+      "name": "signal-lang",
+      "authority_source": "60-signals/signal-lang.md",
+      "schema_source": "60-signals/signal-schema.json",
+      "status": "candidate",
+      "confidence": 0.90,
+      "notes": "Versioned fenced-YAML block format preferred. Legacy .signal front-matter still present."
+    },
+    {
+      "name": "agent-contracts",
+      "authority_source": "agent-runtime/shared/agents/",
+      "status": "candidate",
+      "confidence": 0.85,
+      "notes": "Shared agent prompt files define behavioral constraints. Canonical for adapter-local copies."
+    },
+    {
+      "name": "lineage",
+      "authority_source": null,
+      "schema_source": "agent-runtime/warehouse/canon/LINEAGE_SCHEMA.json",
+      "status": "MISSING_AUTHORITY",
+      "confidence": 0.40,
+      "notes": "Lineage fields exist across many artifacts but no blessed standalone schema. Requires creation."
+    },
+    {
+      "name": "recovery-manifest",
+      "authority_source": null,
+      "schema_source": "agent-runtime/warehouse/canon/RECOVERY_MANIFEST_SCHEMA.json",
+      "status": "MISSING_AUTHORITY",
+      "confidence": 0.30,
+      "notes": "Recovery instructions exist as prose only. Requires machine-readable schema."
+    },
+    {
+      "name": "warehouse-specification",
+      "authority_source": "agent-runtime/warehouse/canon/WAREHOUSE_SPECIFICATION.md",
+      "status": "candidate",
+      "confidence": 0.70,
+      "notes": "Provisional candidate spec. Not final canon. Subject to Bruce approval."
+    }
+  ],
+  "missing_artifacts": [
+    "lineage-schema.json — first-class machine-enforced lineage contract",
+    "recovery-manifest-schema.json — machine-readable node rebuild instructions",
+    "authority-map migration note — maps old paths to new canonical paths"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/Brucesquared2/agent-deck/agent-runtime/warehouse/canon/LINEAGE_SCHEMA.json",
+  "title": "WarehouseLineageRecord",
+  "description": "Schema for a first-class Warehouse lineage record. Every canonical artifact must carry or reference a lineage record. Status: candidate v0.1 authority: provisional.",
+  "type": "object",
+  "required": [
+    "artifact_id",
+    "artifact_type",
+    "created_at",
+    "created_by",
+    "authority_source",
+    "version",
+    "hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "type": "string",
+      "description": "Globally unique identifier for this artifact instance. Use a UUID or a scoped slug.",
+      "examples": ["signal-0042", "mem-l2-2026-06-10-001"]
+    },
+    "artifact_type": {
+      "type": "string",
+      "description": "The artifact family this record belongs to.",
+      "enum": [
+        "signal",
+        "memory",
+        "session",
+        "decision",
+        "policy",
+        "agent-contract",
+        "recovery-manifest",
+        "canon-spec",
+        "authority-map",
+        "skill",
+        "reflection",
+        "compiled",
+        "unknown"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when this artifact was created."
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Identity of the creator: a human username, agent name, or system identifier.",
+      "examples": ["bruce", "planner-agent", "warehouse-compiler"]
+    },
+    "authority_source": {
+      "type": "string",
+      "description": "Canonical path or URI of the authoritative source for this artifact. Must not be a reflection or mirror.",
+      "examples": ["00-core/policies.md", "60-signals/signal-lang.md"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version string for this artifact.",
+      "examples": ["0.1", "1.0.0", "2.3.1"]
+    },
+    "hash": {
+      "type": "string",
+      "description": "Content hash (SHA-256 hex) of the artifact at creation time. Used for integrity verification.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "derived_from": {
+      "type": "array",
+      "description": "List of artifact IDs that this artifact was derived from or depends on.",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "supersedes": {
+      "type": ["string", "null"],
+      "description": "Artifact ID of the prior version this artifact replaces, if any.",
+      "default": null
+    },
+    "superseded_by": {
+      "type": ["string", "null"],
+      "description": "Artifact ID of the newer version that replaces this artifact, if any. Null if current.",
+      "default": null
+    },
+    "reflection_sources": {
+      "type": "array",
+      "description": "Paths or IDs of reflection/mirror copies of this artifact. These are recovery surfaces, not authority.",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "session_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the session or context in which this artifact was produced.",
+      "default": null
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional classification tags.",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about provenance, context, or known ambiguities.",
+      "default": ""
+    }
+  }
+}
