@@ -1,0 +1,142 @@
+version: 1
+canonical_repository: Brucesquared2/agent-deck
+policy:
+  integration_mode: adapter-first
+  default_network_scope: loopback-or-private
+  require_human_approval_for:
+    - external_publish
+    - browser_side_effect
+    - destructive_filesystem
+    - credential_use
+    - financial_action
+  require_artifact_provenance: true
+  require_license_metadata: true
+
+integrations:
+  - id: agent-vault
+    repository: Brucesquared2/agent-vault
+    capability: memory
+    mode: library-or-filesystem
+    priority: tier-1
+    license_review: required
+
+  - id: opengeni
+    repository: Brucesquared2/opengeni
+    capability: durable-agent-runtime
+    mode: http-sdk
+    priority: tier-1
+    license: Apache-2.0
+
+  - id: agent-harness
+    repository: Brucesquared2/agent-harness
+    capability: development-guardrails
+    mode: cli-bootstrap
+    priority: tier-1
+    license: MIT
+
+  - id: ops-codegraph-tool
+    repository: Brucesquared2/ops-codegraph-tool
+    capability: code-intelligence
+    mode: mcp
+    priority: tier-1
+    license: Apache-2.0
+
+  - id: agent-skills-manager
+    repository: Brucesquared2/agent-skills-manager
+    capability: skill-management
+    mode: http-cli-filesystem
+    priority: tier-1
+    license: MIT
+
+  - id: litellm
+    repository: Brucesquared2/litellm
+    capability: model-gateway
+    mode: openai-compatible-http
+    priority: tier-1
+    license_review: required
+
+  - id: OpenMontage
+    repository: Brucesquared2/OpenMontage
+    capability: video-production
+    mode: external-service
+    priority: tier-2
+    license: AGPL-3.0
+    isolation: process-boundary
+
+  - id: FireRed-OpenStoryline
+    repository: Brucesquared2/FireRed-OpenStoryline
+    capability: conversational-video-editing
+    mode: mcp-http
+    priority: tier-2
+    license: Apache-2.0
+
+  - id: comfyui-bridge
+    repository: Brucesquared2/comfyui-bridge
+    capability: media-generation
+    mode: http
+    priority: tier-2
+    license: MIT
+
+  - id: last30days-skill
+    repository: Brucesquared2/last30days-skill
+    capability: trend-research
+    mode: skill
+    priority: tier-2
+    license_review: required
+
+  - id: taste-skill
+    repository: Brucesquared2/taste-skill
+    capability: creative-review
+    mode: skill
+    priority: tier-2
+    license_review: required
+
+  - id: setec
+    repository: Brucesquared2/setec
+    capability: secrets
+    mode: http-tailscale
+    priority: tier-3
+    license_review: required
+
+  - id: ego-lite
+    repository: Brucesquared2/ego-lite
+    capability: browser-automation
+    mode: external-service
+    priority: tier-3
+    approval_required: true
+
+  - id: opik
+    repository: Brucesquared2/opik
+    capability: observability-evaluation
+    mode: http-sdk
+    priority: tier-3
+    license_review: required
+
+  - id: sdl-mcp
+    repository: Brucesquared2/sdl-mcp
+    capability: context-budgeting
+    mode: mcp
+    priority: tier-3
+    license_review: required
+
+  - id: open-deep-research
+    repository: Brucesquared2/open-deep-research
+    capability: research
+    mode: service-or-skill
+    priority: tier-3
+    license_review: required
+
+  - id: chonkie
+    repository: Brucesquared2/chonkie
+    capability: ingestion-chunking
+    mode: library
+    priority: tier-3
+    license_review: required
+
+  - id: understory
+    repository: Brucesquared2/understory
+    capability: alternative-memory
+    mode: mcp-filesystem
+    priority: tier-3
+    canonical: false
+    license_review: required
